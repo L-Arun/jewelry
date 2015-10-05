@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.try4.jewelry.framework.dao.TestUserDao">
+<!-- 注册用户 -->
+	<insert id="insertTestUser" parameterType="TestUser" useGeneratedKeys="false" keyProperty="id">
+		INSERT INTO test_user(state,nick_name) 
+		VALUES(#{state}, #{nickName})
+	</insert>
+	
+	<update id="updateTestUser" parameterType="TestUser" >
+		UPDATE test_user SET 
+		<if test="nickName != null">nick_name = #{nickName}</if>
+		WHERE id=#{id}
+	</update>
+	
+	<!-- 通过gps_info表检索方法 用于功能轨迹回放 -->
+	<select id="getTestUser" parameterType="map" resultType="TestUser">
+		SELECT id,state ,nick_name as nickName
+		FROM test_user
+		WHERE 1=1
+		<if test="nickName != null and nickName !='' ">
+		  and nick_name = #{nickName}
+		</if>
+	</select>
+	
+</mapper>  
